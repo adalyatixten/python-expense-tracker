@@ -2,8 +2,26 @@ import csv
 
 
 def add_expense():
-    amount = float(input("Enter expense amount: "))
-    category = input("Enter category: ")
+    while True:
+        try:
+            amount = float(input("Enter expense amount: "))
+
+            if amount <= 0:
+                print("Amount must be greater than 0.")
+                continue
+
+            break
+
+        except ValueError:
+            print("Please enter a valid number.")
+
+    while True:
+        category = input("Enter category: ").strip()
+
+        if category:
+            break
+
+        print("Category cannot be empty.")
 
     with open("expenses.csv", "a", newline="", encoding="utf-8") as file:
         writer = csv.writer(file)
@@ -38,7 +56,7 @@ while True:
     print("2. View expenses")
     print("3. Exit")
 
-    choice = input("\nChoose an option: ")
+    choice = input("\nChoose an option: ").strip()
 
     if choice == "1":
         add_expense()
@@ -51,4 +69,4 @@ while True:
         break
 
     else:
-        print("Invalid option. Please try again.")
+        print("Invalid option. Please choose 1, 2, or 3.")
