@@ -1,35 +1,54 @@
 import csv
 
-print("Expense Tracker")
-print("---------------")
 
-amount = float(input("Enter expense amount: "))
-category = input("Enter category: ")
+def add_expense():
+    amount = float(input("Enter expense amount: "))
+    category = input("Enter category: ")
 
-# Save the new expense
-with open("expenses.csv", "a", newline="", encoding="utf-8") as file:
-    writer = csv.writer(file)
-    writer.writerow([amount, category])
+    with open("expenses.csv", "a", newline="", encoding="utf-8") as file:
+        writer = csv.writer(file)
+        writer.writerow([amount, category])
 
-print()
-print("Expense added")
-print(f"Amount: RM {amount:.2f}")
-print(f"Category: {category}")
+    print("\nExpense added successfully!")
 
-# Show all expenses and calculate total
-print("\nExpense Summary")
-print("---------------")
 
-total = 0
+def view_expenses():
+    print("\nExpense Summary")
+    print("----------------")
 
-with open("expenses.csv", "r", encoding="utf-8") as file:
-    reader = csv.DictReader(file)
+    total = 0
 
-    for row in reader:
-        expense_amount = float(row["amount"])
-        total += expense_amount
+    with open("expenses.csv", "r", encoding="utf-8") as file:
+        reader = csv.DictReader(file)
 
-        print(f"{row['category']}: RM {expense_amount:.2f}")
+        for row in reader:
+            amount = float(row["amount"])
+            total += amount
 
-print("---------------")
-print(f"Total spent: RM {total:.2f}")
+            print(f"{row['category']}: RM {amount:.2f}")
+
+    print("----------------")
+    print(f"Total spent: RM {total:.2f}")
+
+
+while True:
+    print("\nExpense Tracker")
+    print("---------------")
+    print("1. Add expense")
+    print("2. View expenses")
+    print("3. Exit")
+
+    choice = input("\nChoose an option: ")
+
+    if choice == "1":
+        add_expense()
+
+    elif choice == "2":
+        view_expenses()
+
+    elif choice == "3":
+        print("Goodbye!")
+        break
+
+    else:
+        print("Invalid option. Please try again.")
