@@ -1,4 +1,5 @@
 import csv
+from datetime import date
 
 
 def add_expense():
@@ -23,16 +24,21 @@ def add_expense():
 
         print("Category cannot be empty.")
 
+    expense_date = date.today().isoformat()
+
     with open("expenses.csv", "a", newline="", encoding="utf-8") as file:
         writer = csv.writer(file)
-        writer.writerow([amount, category])
+        writer.writerow([expense_date, amount, category])
 
     print("\nExpense added successfully!")
+    print(f"Date: {expense_date}")
+    print(f"Amount: RM {amount:.2f}")
+    print(f"Category: {category}")
 
 
 def view_expenses():
     print("\nExpense Summary")
-    print("----------------")
+    print("--------------------------------")
 
     total = 0
 
@@ -43,9 +49,13 @@ def view_expenses():
             amount = float(row["amount"])
             total += amount
 
-            print(f"{row['category']}: RM {amount:.2f}")
+            print(
+                f"{row['date']} | "
+                f"{row['category']} | "
+                f"RM {amount:.2f}"
+            )
 
-    print("----------------")
+    print("--------------------------------")
     print(f"Total spent: RM {total:.2f}")
 
 
